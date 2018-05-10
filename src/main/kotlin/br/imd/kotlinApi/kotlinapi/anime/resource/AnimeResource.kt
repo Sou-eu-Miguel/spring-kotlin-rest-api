@@ -7,21 +7,36 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
+/**
+ *  Rest Controller API for Entity Anime
+ */
 @RestController
 @RequestMapping("/animes", produces = arrayOf("application/json"))
 class AnimeResource(private val animeDao :AnimeDao){
 
+    /**
+     * Return list with all registered Anime
+     */
     @GetMapping
-    fun listAll():List<Anime>? = animeDao.findAll()
+    fun listAll():List<Anime> = animeDao.findAll()
 
+    /**
+     *  Save new Anime in database
+     */
     @PostMapping
     fun save(@Valid @RequestBody anime: Anime): Anime = animeDao.save(anime)
 
+    /**
+     * Return Anime data according id
+     */
     @GetMapping("/{id}")
     fun getAnimeById(@PathVariable("id") animeId:Long):ResponseEntity<Anime> =
             animeDao.findById(animeId).map { anime -> ResponseEntity.ok(anime)}
                 .orElse(ResponseEntity.notFound().build())
 
+    /**
+     * Update Anime data according id
+     */
     @PutMapping("/{id}")
     fun updateAnimeById(@PathVariable("id") animeId: Long, @Valid @RequestBody animeNew: Anime ):ResponseEntity<Anime> {
         return animeDao.findById(animeId).map { animeExisting ->
@@ -36,6 +51,9 @@ class AnimeResource(private val animeDao :AnimeDao){
         }.orElse(ResponseEntity.notFound().build())
     }
 
+    /**
+     * Deleting Anime data according id
+     */
     @DeleteMapping("/{id}")
     fun deleteAnimeById(@PathVariable("id") animeId: Long):ResponseEntity<Void> {
         return animeDao.findById(animeId).map { animeExisting ->
