@@ -1,5 +1,6 @@
 package br.imd.kotlinApi.kotlinapi.anime.model
 
+import br.imd.kotlinApi.kotlinapi.session.model.Vote
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
@@ -13,7 +14,7 @@ import javax.persistence.OneToMany
  *  Entity Anime
  */
 @Entity
-@Table(name = "anime",schema = "public")
+@Table(name = "anime",schema = "anime")
 data class Anime constructor(
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,6 +22,10 @@ data class Anime constructor(
     val name            :String? = null,
     val description     :String? = null,
 
-    @OneToMany(cascade = [CascadeType.REFRESH,CascadeType.REMOVE])
-    val chapters        :List<Chapter>? = null
+    @OneToMany(cascade = [CascadeType.ALL])
+    val chapters        :List<Chapter>? = null,
+
+    @OneToMany(cascade = [CascadeType.ALL])
+    val votes           :List<Vote>? = null
+
 )
