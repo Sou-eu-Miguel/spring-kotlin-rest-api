@@ -9,7 +9,7 @@ import javax.persistence.*
  */
 @Entity
 @Table(name = "session",schema = "session")
-class Session(
+data class Session constructor(
         @Id @GeneratedValue(strategy = GenerationType.AUTO)
         val id      :Long,
 
